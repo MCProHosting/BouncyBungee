@@ -37,8 +37,13 @@ public class BouncyServerBeatHandler implements Runnable {
      * Call this method when a server sends a heartbeat.
      * @param info The server that a heartbeat was received for.
      */
-    public void heartbeatRecieved(ServerInfo info) {
-        this.heartbeats.put(info, new BouncyServerBeat(info, Calendar.getInstance().getTimeInMillis()));
+    public void heartbeatRecieved(ServerInfo info, List playerList) {
+        ArrayList<String> players = new ArrayList<>();
+        for (Object p : playerList) {
+            if (!(p instanceof String)) continue;
+            players.add((String) p);
+        }
+        this.heartbeats.put(info, new BouncyServerBeat(info, Calendar.getInstance().getTimeInMillis(), players));
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mcprohosting.bouncybungee.servers;
 
 import com.mcprohosting.bouncybungee.BouncyBungee;
+import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 
@@ -20,11 +21,15 @@ public class BouncyServerBeatHandler implements Runnable {
      */
     private Map<ServerInfo, BouncyServerBeat> heartbeats;
 
+    @Getter private BouncyServerHandler serverHandler;
+
     /**
      * Creates a new handler, and schedules it in the BungeeCord scheduler.
      */
     public BouncyServerBeatHandler() {
         this.heartbeats = new HashMap<>();
+        this.serverHandler = new BouncyServerHandler();
+        BouncyBungee.getInstance().getDispatch().registerNetCommands(this.serverHandler);
         schedule();
     }
 

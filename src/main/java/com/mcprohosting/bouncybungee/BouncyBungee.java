@@ -3,6 +3,7 @@ package com.mcprohosting.bouncybungee;
 import com.mcprohosting.bouncybungee.command.BaseReceiver;
 import com.mcprohosting.bouncybungee.command.BaseSender;
 import com.mcprohosting.bouncybungee.command.NetCommandDispatch;
+import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import com.mcprohosting.bouncybungee.util.TPlugin;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
@@ -26,6 +27,7 @@ public class BouncyBungee extends TPlugin {
     private Properties settings;
     private Properties strings;
     @Getter private NetCommandDispatch dispatch;
+    @Getter private BouncyServerBeatHandler beatHandler;
     private JedisPool jedisPool;
 
     @Override
@@ -42,6 +44,9 @@ public class BouncyBungee extends TPlugin {
         this.dispatch = new NetCommandDispatch();
         this.getDispatch().registerNetCommands(new BaseReceiver());
         registerEvents(new BaseSender());
+        this.beatHandler = new BouncyServerBeatHandler();
+        Thread thread = new Thread(this.beatHandler);
+        thread.start();
     }
 
     public Jedis getJedis() {

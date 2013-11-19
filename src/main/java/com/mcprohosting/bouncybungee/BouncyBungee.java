@@ -15,21 +15,37 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 11/18/13
- * Time: 9:15 AM
- * To change this template use File | Settings | File Templates.
+ * Main Plugin class!
  */
-//TODO clankymicheael
 public class BouncyBungee extends TPlugin {
+    /**
+     * The instance of the plugin, stored here for ease!
+     */
     @Getter private static BouncyBungee instance;
+    /**
+     * Stores our settings file (loaded)
+     */
     private Properties settings;
+    /**
+     * Stores our strings file (loaded)
+     */
     private Properties strings;
+    /**
+     * Has our NetCommandDispatch for registration.
+     */
     @Getter private NetCommandDispatch dispatch;
+    /**
+     * Has our BouncyServerBeatHandler for handling heartbeats from servers.
+     */
     @Getter private BouncyServerBeatHandler beatHandler;
+    /**
+     * Stores a Jedis pool.
+     */
     private JedisPool jedisPool;
 
+    /**
+     * Start method.
+     */
     @Override
     protected void start() {
         BouncyBungee.instance = this;
@@ -50,18 +66,33 @@ public class BouncyBungee extends TPlugin {
         registerEvents(new MOTDFeature());
     }
 
+    /**
+     * Get a Jedis object here.
+     * @return A newly grabbed Jedis link. Make sure you return it when you're done!
+     */
     public Jedis getJedis() {
         return this.jedisPool.getResource();
     }
 
+    /**
+     * Returns a Jedis resource to the pool.
+     * @param jedis The Jedis resource you wish to return.
+     */
     public void returnJedis(Jedis jedis) {
         this.jedisPool.returnResource(jedis);
     }
 
+    /**
+     * Nothing here yet!
+     */
     @Override
     protected void stop() {
     }
 
+    /**
+     * Reloads the two properties files.
+     * @throws IOException When there was an error reading the files
+     */
     public void reload() throws IOException {
         this.settings = new Properties();
         this.strings = new Properties();

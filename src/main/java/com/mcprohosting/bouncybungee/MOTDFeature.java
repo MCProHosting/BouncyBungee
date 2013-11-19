@@ -20,7 +20,7 @@ public class MOTDFeature implements Listener {
         event.setResponse(new ServerPing(
                 ProxyServer.getInstance().getProtocolVersion(),
                 ProxyServer.getInstance().getGameVersion(),
-                "Insert MOTD Here",
+                event.getResponse().getMotd(), //Keep this the same.
                 BouncyServerBeatHandler.getPlayersOnline(),
                 BouncyServerBeatHandler.getPlayersOnline()+1
         ));

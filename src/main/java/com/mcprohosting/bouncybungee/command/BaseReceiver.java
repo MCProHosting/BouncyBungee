@@ -30,7 +30,8 @@ public class BaseReceiver {
             player1.sendMessage(BouncyBungee.getInstance().getFormat("already-connected"));
             return;
         }
-        player1.sendMessage(BouncyBungee.getInstance().getFormat("connecting", true, true, new String[]{"<server>" , server}));
+        player1.sendMessage
+                (BouncyBungee.getInstance().getFormat("connecting", true, true, new String[]{"<server>", server}));
         player1.connect(serverInfo);
     }
     @NetCommandHandler(args = {"player", "server"}, name = "join")

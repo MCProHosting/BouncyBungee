@@ -1,7 +1,7 @@
 package com.mcprohosting.bouncybungee.command;
 
 import com.mcprohosting.bouncybungee.BouncyBungee;
-import com.mcprohosting.bouncybungee.util.ErrorHandler;
+import lombok.Getter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
@@ -15,11 +15,11 @@ public class NetCommand {
     /**
      * The arguments of the command we're going to send.
      */
-    private HashMap<String, Object> args;
+    @Getter private HashMap<String, Object> args;
     /**
      * The name of the command.
      */
-    private String name;
+    @Getter private String name;
 
     /**
      * Private constructor
@@ -60,7 +60,7 @@ public class NetCommand {
             JSONObject argsObject = new JSONObject(args);
             jsonObject.put("data", argsObject);
         } catch (JSONException e) {
-            ErrorHandler.reportError(e);
+            e.printStackTrace();
             return;
         }
         Jedis jedis = BouncyBungee.getInstance().getJedis();

@@ -1,7 +1,7 @@
 package com.mcprohosting.bouncybungee.command;
 
-import com.mcprohosting.bouncybungee.util.ErrorHandler;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,11 +16,11 @@ public class RegisteredNetCommand {
     /**
      * The arguments that this command accepts
      */
-    private List<String> args;
+    @Getter private List<String> args;
     /**
      * Represents the name of the command
      */
-    private String name;
+    @Getter private String name;
     /**
      * Associates handlers to their methods.
      */
@@ -36,22 +36,6 @@ public class RegisteredNetCommand {
         this.args = args;
         this.name = name;
         this.handlers = handlers;
-    }
-
-    /**
-     * Get the name of the command
-     * @return The name of the command.
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Get the arguments of the command.
-     * @return The accepted arguments of this command.
-     */
-    public List<String> getArgs() {
-        return this.args;
     }
 
     /**
@@ -72,7 +56,7 @@ public class RegisteredNetCommand {
             try {
                 objectMethodEntry.getValue().invoke(objectMethodEntry.getKey(), data);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                ErrorHandler.reportError(e);
+                e.printStackTrace();
             }
         }
 

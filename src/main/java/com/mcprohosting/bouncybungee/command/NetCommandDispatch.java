@@ -1,7 +1,6 @@
 package com.mcprohosting.bouncybungee.command;
 
 import com.mcprohosting.bouncybungee.BouncyBungee;
-import com.mcprohosting.bouncybungee.util.ErrorHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +51,8 @@ public class NetCommandDispatch {
             NetCommandHandler annotation = m.getAnnotation(NetCommandHandler.class);
             RegisteredNetCommand command;
             if (!this.netCommands.containsKey(annotation)) {
-                command = new RegisteredNetCommand(annotation.name(), Arrays.asList(annotation.args()),new HashMap<Object, Method>());
+                command = new RegisteredNetCommand(
+                        annotation.name(), Arrays.asList(annotation.args()),new HashMap<Object, Method>());
                 this.netCommands.put(annotation, command);
                 this.nameToAnnotationMap.put(annotation.name(), annotation); //Other logic
                 /*
@@ -96,7 +96,7 @@ public class NetCommandDispatch {
             registeredNetCommand.callHandlers(stringObjectHashMap);
 
         } catch (JSONException e) {
-            ErrorHandler.reportError(e);
+            e.printStackTrace();
             return false;
         }
         return true;

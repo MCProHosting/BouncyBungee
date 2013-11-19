@@ -1,6 +1,5 @@
 package com.mcprohosting.bouncybungee.util.command;
 
-import com.mcprohosting.bouncybungee.util.ErrorHandler;
 import com.mcprohosting.bouncybungee.util.TPlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

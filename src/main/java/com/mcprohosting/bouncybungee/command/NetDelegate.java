@@ -1,7 +1,6 @@
 package com.mcprohosting.bouncybungee.command;
 
 import com.mcprohosting.bouncybungee.BouncyBungee;
-import com.mcprohosting.bouncybungee.util.ErrorHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
@@ -24,10 +23,10 @@ public class NetDelegate extends JedisPubSub implements Runnable {
         try {
             obj = new JSONObject(data);
         } catch (JSONException ex) {
-            ErrorHandler.reportError(ex);
+            ex.printStackTrace();
             return;
         }
-        if (!BouncyBungee.getInstance().getNetDispatch().handleCommand(obj)) {
+        if (!BouncyBungee.getInstance().getDispatch().handleCommand(obj)) {
             BouncyBungee.getInstance().getLogger().info("Failed to execute command " + obj.toString());
         }
     }

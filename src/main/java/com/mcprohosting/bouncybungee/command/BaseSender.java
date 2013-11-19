@@ -14,6 +14,10 @@ import net.md_5.bungee.event.EventHandler;
 public class BaseSender implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent event) {
-        NetCommand.withName("join").withArg("player", event.getPlayer().getName()).withArg("server", event.getPlayer().getServer().getInfo().getName()).send();
+        NetCommand.
+                withName("join").
+                withArg("player", event.getPlayer().getName()).
+                withArg("server", event.getPlayer().getServer().getInfo().getName())
+                .send();
     }
 }

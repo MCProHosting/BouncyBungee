@@ -6,7 +6,12 @@
 
     <groupId>BouncyBungee</groupId>
     <artifactId>BouncyBungee</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>BouncyBukkit</module>
+        <module>BouncyBukkit</module>
+    </modules>
     <repositories>
         <repository>
             <id>snapshot-repo</id>

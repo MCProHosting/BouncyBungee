@@ -4,6 +4,7 @@ import com.mcprohosting.bouncybungee.command.BaseReceiver;
 import com.mcprohosting.bouncybungee.command.BaseSender;
 import com.mcprohosting.bouncybungee.command.NetCommandDispatch;
 import com.mcprohosting.bouncybungee.command.NetDelegate;
+import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import com.mcprohosting.bouncybungee.util.ErrorHandler;
 import com.mcprohosting.bouncybungee.util.TDatabaseManager;
 import com.mcprohosting.bouncybungee.util.TPlugin;
@@ -29,6 +30,7 @@ public class BouncyBungee extends TPlugin implements TDatabaseManager {
     private Properties strings;
     private NetCommandDispatch dispatch;
     private JedisPool jedisPool;
+    private BouncyServerBeatHandler beatHandler;
 
     public static BouncyBungee getInstance() {
         return BouncyBungee.instance;
@@ -41,6 +43,7 @@ public class BouncyBungee extends TPlugin implements TDatabaseManager {
         config.setTestOnBorrow(true);
         this.jedisPool = new JedisPool(config, this.host());
         this.dispatch = new NetCommandDispatch();
+        this.beatHandler = new BouncyServerBeatHandler();
         this.getNetDispatch().registerNetCommands(new BaseReceiver());
         registerEvents(new BaseSender());
     }
@@ -51,6 +54,10 @@ public class BouncyBungee extends TPlugin implements TDatabaseManager {
 
     public void returnJedis(Jedis jedis) {
         this.jedisPool.returnResource(jedis);
+    }
+
+    public BouncyServerBeatHandler getBeatHandler() {
+        return this.beatHandler;
     }
 
     @Override

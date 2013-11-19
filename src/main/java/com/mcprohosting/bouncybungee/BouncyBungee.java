@@ -47,6 +47,7 @@ public class BouncyBungee extends TPlugin {
         this.beatHandler = new BouncyServerBeatHandler();
         Thread thread = new Thread(this.beatHandler);
         thread.start();
+        registerEvents(new MOTDFeature());
     }
 
     public Jedis getJedis() {

@@ -21,15 +21,13 @@ public class BouncyServerBeatHandler implements Runnable {
      */
     private Map<ServerInfo, BouncyServerBeat> heartbeats;
 
-    @Getter private BouncyServerHandler serverHandler;
-
     /**
      * Creates a new handler, and schedules it in the BungeeCord scheduler.
      */
     public BouncyServerBeatHandler() {
         this.heartbeats = new HashMap<>();
-        this.serverHandler = new BouncyServerHandler();
-        BouncyBungee.getInstance().getDispatch().registerNetCommands(this.serverHandler);
+        BouncyServerHandler serverHandler = new BouncyServerHandler();
+        BouncyBungee.getInstance().getDispatch().registerNetCommands(serverHandler);
         schedule();
     }
 
@@ -67,5 +65,17 @@ public class BouncyServerBeatHandler implements Runnable {
      */
     private void schedule() {
         ProxyServer.getInstance().getScheduler().schedule(BouncyBungee.getInstance(), this, 30, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Get players online
+     */
+    public static Integer getPlayersOnline() {
+        Collection<BouncyServerBeat> values = BouncyBungee.getInstance().getBeatHandler().heartbeats.values();
+        Integer count = 0;
+        for (BouncyServerBeat beat : values) {
+            count = count + beat.getPlayers().size();
+        }
+        return count;
     }
 }

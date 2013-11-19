@@ -5,7 +5,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.command.ConsoleCommandSender;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -171,9 +170,9 @@ public class TCommandDispatch {
             sender.sendMessage(String.format("%s%s%s%s:%s%s", ChatColor.RED, ChatColor.ITALIC, e.getClass().getSimpleName(), ChatColor.DARK_AQUA, ChatColor.WHITE, e.getMessage()));
             StackTraceElement stackTraceElement = e.getStackTrace()[0];
             sender.sendMessage(ChatColor.RED + "at: " + ChatColor.GREEN + stackTraceElement.getClassName() + ChatColor.DARK_AQUA + ":" + ChatColor.GREEN+ stackTraceElement.getLineNumber());
-            ErrorHandler.reportError(ex);
+            ex.printStackTrace();
         } catch (Exception ex) {
-            ErrorHandler.reportError(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -183,7 +182,7 @@ public class TCommandDispatch {
      * @return The sender type (enum value)
      */
     private TCommandSender getType(CommandSender sender) {
-        if (sender instanceof ConsoleCommandSender) return TCommandSender.Console;
+        if (sender.getName().equals("CONSOLE")) return TCommandSender.Console;
         return TCommandSender.Player;
     }
 
@@ -204,7 +203,7 @@ public class TCommandDispatch {
                 this.commandDispatch.onCommand(commandSender, this.command, strings);
             }
             catch (Exception ex) {
-                ErrorHandler.reportError(ex);
+                ex.printStackTrace();
                 commandSender.sendMessage(ChatColor.RED + "Very low level error. Cannot continue!");
             }
         }

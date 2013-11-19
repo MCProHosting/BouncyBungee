@@ -1,5 +1,6 @@
 package com.mcprohosting.bouncybungee.command;
 
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -17,7 +18,14 @@ public class BaseSender implements Listener {
         NetCommand.
                 withName("join").
                 withArg("player", event.getPlayer().getName()).
-                withArg("server", event.getPlayer().getServer().getInfo().getName())
-                .send();
+                withArg("server", event.getPlayer().getServer().getInfo().getName()).
+                send();
+    }
+    @EventHandler
+    public void onPlayerLeave(PlayerDisconnectEvent event) {
+        NetCommand.
+                withName("quit").
+                withArg("player", event.getPlayer().getName()).
+                send();
     }
 }

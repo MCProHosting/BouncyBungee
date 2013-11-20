@@ -81,7 +81,6 @@ public class NetCommandDispatch {
      */
     public boolean handleCommand(JSONObject object) {
         String command;
-        BouncyBungee.getInstance().getLogger().info("Got a command! " +  object.toString());
         try {
             command = object.getString("command");
             NetCommandHandler netCommandHandler = this.nameToAnnotationMap.get(command);

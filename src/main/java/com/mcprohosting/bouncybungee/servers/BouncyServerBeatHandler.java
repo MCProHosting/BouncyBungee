@@ -51,7 +51,10 @@ public class BouncyServerBeatHandler implements Runnable {
     public void run() {
         for (ServerInfo info : ProxyServer.getInstance().getServers().values()) {
             BouncyServerBeat bouncyServerBeat = heartbeats.get(info);
-            if (bouncyServerBeat == null || Calendar.getInstance().getTimeInMillis()-bouncyServerBeat.getTimeHeartbeat() > BouncyServerBeatHandler.TIME_EXPIRE) {
+            if (bouncyServerBeat == null ||
+                    (Calendar.getInstance().getTimeInMillis()-bouncyServerBeat.getTimeHeartbeat() >
+                            BouncyServerBeatHandler.TIME_EXPIRE))
+            {
                 ProxyServer.getInstance().getServers().remove(info.getName());
                 BouncyServerHandler.disconnectAll(info, BouncyBungee.getInstance().getFormat("updating-routing",false));
                 this.heartbeats.remove(info);

@@ -7,6 +7,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,7 +43,10 @@ public class BouncyServerHandler {
         InetSocketAddress socketAddress = new InetSocketAddress(ip, port);
         ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
         if (serverInfo != null) {
-            if (serverInfo.getAddress().equals(socketAddress)) return;
+            if (serverInfo.getAddress().equals(socketAddress)) {
+                BouncyBungee.getInstance().getBeatHandler().heartbeatRecieved(serverInfo, list);
+                return;
+            }
             disconnectAll(serverInfo, BouncyBungee.getInstance().getFormat("updating-routing",false));
         }
         ServerInfo info = ProxyServer.getInstance().constructServerInfo(name, socketAddress, BouncyBungee.getInstance().getFormat("default-motd", false), false);
@@ -54,7 +58,9 @@ public class BouncyServerHandler {
         Object n = args.get("name");
         if (!(n instanceof String)) return;
         String name = (String)n;
-        disconnectAll(ProxyServer.getInstance().getServerInfo(name), BouncyBungee.getInstance().getFormat("updating-routing",false));
+        ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
+        if (serverInfo == null) return;
+        disconnectAll(serverInfo, BouncyBungee.getInstance().getFormat("updating-routing",false));
         ProxyServer.getInstance().getServers().remove(name);
     }
 

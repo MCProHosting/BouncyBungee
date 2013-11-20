@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * responsible for removing servers that don't send a heartbeat often enough.
  */
 @AllArgsConstructor
+@ToString(of = {"info", "players"})
 public class BouncyServerBeat {
     /**
      * The Server that sent the ping.

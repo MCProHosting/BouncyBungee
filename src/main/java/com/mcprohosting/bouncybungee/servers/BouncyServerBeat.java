@@ -12,7 +12,7 @@ import java.util.List;
  * BouncyServerBeat! This stores the time that a server last sent a heartbeat call to BungeeCord. The handler is
  * responsible for removing servers that don't send a heartbeat often enough.
  */
-@AllArgsConstructor()
+@AllArgsConstructor
 public class BouncyServerBeat {
     /**
      * The Server that sent the ping.

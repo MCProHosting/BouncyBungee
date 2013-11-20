@@ -47,7 +47,7 @@ public class NetCommandDispatch {
         for (Method m : o.getClass().getDeclaredMethods()) {
             if (!m.isAnnotationPresent(NetCommandHandler.class)) continue;
             if (m.getParameterTypes().length != 1) continue;
-            if (m.getParameterTypes()[0].equals(HashMap.class)) continue;
+            if (!m.getParameterTypes()[0].equals(HashMap.class)) continue;
             NetCommandHandler annotation = m.getAnnotation(NetCommandHandler.class);
             RegisteredNetCommand command;
             if (!this.netCommands.containsKey(annotation)) {
@@ -81,6 +81,7 @@ public class NetCommandDispatch {
      */
     public boolean handleCommand(JSONObject object) {
         String command;
+        BouncyBungee.getInstance().getLogger().info("Got a command! " +  object.toString());
         try {
             command = object.getString("command");
             NetCommandHandler netCommandHandler = this.nameToAnnotationMap.get(command);

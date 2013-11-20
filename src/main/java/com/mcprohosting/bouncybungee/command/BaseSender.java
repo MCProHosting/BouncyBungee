@@ -18,7 +18,6 @@ public class BaseSender implements Listener {
         NetCommand.
                 withName("join").
                 withArg("player", event.getPlayer().getName()).
-                withArg("server", event.getPlayer().getServer().getInfo().getName()).
                 send();
     }
     @EventHandler

@@ -15,8 +15,4 @@ public class BouncyJoinEvent extends Event {
      * The name of the player whom connected
      */
     private final String player;
-    /**
-     * The name of the server to which the player connected to
-     */
-    private final String server;
 }

@@ -36,12 +36,11 @@ public class BaseReceiver {
                 (BouncyBungee.getInstance().getFormat("connecting", true, true, new String[]{"<server>", server}));
         player1.connect(serverInfo);
     }
-    @NetCommandHandler(args = {"player", "server"}, name = "join")
+    @NetCommandHandler(args = {"player"}, name = "join")
     public void onJoin(HashMap<String, Object> args) {
         Object p = args.get("player");
-        Object s = args.get("s");
-        if (!(p instanceof String) || !(s instanceof String)) return;
-        BouncyJoinEvent event = new BouncyJoinEvent((String)p, (String)s);
+        if (!(p instanceof String)) return;
+        BouncyJoinEvent event = new BouncyJoinEvent((String)p);
         ProxyServer.getInstance().getPluginManager().callEvent(event);
     }
     @NetCommandHandler(args = {"player"}, name = "quit")

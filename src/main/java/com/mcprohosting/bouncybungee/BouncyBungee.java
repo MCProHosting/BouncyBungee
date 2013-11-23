@@ -11,7 +11,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -49,6 +49,7 @@ public class BouncyBungee extends TPlugin {
     @Override
     protected void start() {
         BouncyBungee.instance = this;
+        if (!getDataFolder().exists()) getDataFolder().mkdir();
         try {
             reload();
         } catch (IOException e) {
@@ -96,7 +97,8 @@ public class BouncyBungee extends TPlugin {
     public void reload() throws IOException {
         this.settings = new Properties();
         this.strings = new Properties();
-        this.settings.load(getResourceAsStream("settings.properties"));
+        this.settings.load(getFileAsStream("settings.properties"));
+        if (!this.settings.contains("host")) this.settings.setProperty("host", "127.0.0.1");
         this.strings.load(getResourceAsStream("strings.properties"));
     }
     public String getFormat(String key, boolean prefix, boolean color, String[]... datas) {
@@ -120,5 +122,22 @@ public class BouncyBungee extends TPlugin {
     }
     public String getFormat(String key) {
         return getFormat(key, true);
+    }
+    public InputStreamReader getFileAsStream(String name) {
+        File f = new File(getDataFolder(), name);
+        if (!(f.canRead() && f.exists())) try {
+            boolean newFile = f.createNewFile();
+            if (!newFile) return null;
+            return getFileAsStream(name);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
+        }
+        try {
+            return new InputStreamReader(new BufferedInputStream(new FileInputStream(f)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

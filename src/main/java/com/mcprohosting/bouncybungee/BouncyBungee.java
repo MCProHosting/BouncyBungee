@@ -3,10 +3,13 @@ package com.mcprohosting.bouncybungee;
 import com.mcprohosting.bouncybungee.command.BaseReceiver;
 import com.mcprohosting.bouncybungee.command.BaseSender;
 import com.mcprohosting.bouncybungee.command.NetCommandDispatch;
+import com.mcprohosting.bouncybungee.igcommand.AlertNet;
+import com.mcprohosting.bouncybungee.igcommand.GAlertCommand;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import com.mcprohosting.bouncybungee.util.TPlugin;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -62,9 +65,10 @@ public class BouncyBungee extends TPlugin {
         this.getDispatch().registerNetCommands(new BaseReceiver());
         registerEvents(new BaseSender());
         this.beatHandler = new BouncyServerBeatHandler();
-        Thread thread = new Thread(this.beatHandler);
-        thread.start();
+        this.beatHandler.schedule();
         registerEvents(new MOTDFeature());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
+        this.getDispatch().registerNetCommands(new AlertNet());
     }
 
     /**
@@ -98,7 +102,7 @@ public class BouncyBungee extends TPlugin {
         this.settings = new Properties();
         this.strings = new Properties();
         this.settings.load(getFileAsStream("settings.properties"));
-        if (!this.settings.contains("host")) this.settings.setProperty("host", "127.0.0.1");
+        if (!this.settings.containsKey("host")) this.settings.setProperty("host", "127.0.0.1");
         this.strings.load(getResourceAsStream("strings.properties"));
     }
     public String getFormat(String key, boolean prefix, boolean color, String[]... datas) {

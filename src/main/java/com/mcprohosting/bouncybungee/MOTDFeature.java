@@ -18,11 +18,14 @@ public class MOTDFeature implements Listener {
     @EventHandler
     public void onServerPing(ProxyPingEvent event) {
         event.setResponse(new ServerPing(
-                ProxyServer.getInstance().getProtocolVersion(),
-                ProxyServer.getInstance().getGameVersion(),
-                event.getResponse().getMotd(), //Keep this the same.
-                BouncyServerBeatHandler.getPlayersOnline(),
-                BouncyServerBeatHandler.getPlayersOnline()+1
+                event.getResponse().getVersion(),
+                new ServerPing.Players(
+                        BouncyServerBeatHandler.getPlayersOnline()+1,
+                        BouncyServerBeatHandler.getPlayersOnline(),
+                        new ServerPing.PlayerInfo[]{}
+                ),
+                event.getResponse().getDescription(),
+                event.getResponse().getFavicon()
         ));
     }
 }

@@ -66,7 +66,7 @@ public class BouncyServerBeatHandler implements Runnable {
     /**
      * Reschedule this in the scheduler for execution.
      */
-    private void schedule() {
+    public void schedule() {
         ProxyServer.getInstance().getScheduler().schedule(BouncyBungee.getInstance(), this, 30, TimeUnit.SECONDS);
     }
 

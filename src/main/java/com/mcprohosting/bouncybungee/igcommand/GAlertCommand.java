@@ -22,7 +22,7 @@ public class GAlertCommand extends Command {
     }
     @Override
     public void execute(CommandSender sender, String[] strings) {
-        if (!sender.hasPermission("ssunde.alert")){
+        if (!sender.hasPermission("ssundee.alert")){
             sender.sendMessage(ChatColor.RED + "You can't perform this command!");
             return;
         }

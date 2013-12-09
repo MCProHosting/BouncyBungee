@@ -1,9 +1,8 @@
 package com.mcprohosting.bouncybungee.servers;
 
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import lombok.ToString;
 import net.md_5.bungee.api.config.ServerInfo;
 
@@ -19,13 +18,13 @@ public class BouncyServerBeat {
     /**
      * The Server that sent the ping.
      */
-    @Getter @NotNull private ServerInfo info;
+    @Getter @NonNull private ServerInfo info;
     /**
      * The time the heartbeat was sent.
      */
-    @Getter @NotNull private Long timeHeartbeat;
+    @Getter @NonNull private Long timeHeartbeat;
     /**
      * Players.
      */
-    @Getter @NotNull private List<String> players;
+    @Getter @NonNull private List<String> players;
 }

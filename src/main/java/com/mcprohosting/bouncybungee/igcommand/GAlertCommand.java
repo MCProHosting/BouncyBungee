@@ -34,6 +34,6 @@ public class GAlertCommand extends Command {
         sender.sendMessage(ChatColor.GREEN + "Alert sent.");
     }
     public static void broadcastAlert(String alert) {
-        ProxyServer.getInstance().broadcast(BouncyBungee.getInstance().getFormat("alert", true, true, new String[]{"<alert>", alert}));
+        ProxyServer.getInstance().broadcast(BouncyBungee.getInstance().getFormat("alert", false, true, new String[]{"<alert>", alert}));
     }
 }

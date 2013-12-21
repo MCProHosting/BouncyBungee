@@ -1,7 +1,9 @@
 package com.mcprohosting.bouncybungee;
 
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -19,7 +21,7 @@ public class MOTDFeature implements Listener {
         event.setResponse(new ServerPing(
                 event.getResponse().getVersion(),
                 new ServerPing.Players(
-                        BouncyServerBeatHandler.getPlayersOnline()+1,
+                        ProxyServer.getInstance().getConfig().getListeners().iterator().next().getMaxPlayers(),
                         BouncyServerBeatHandler.getPlayersOnline(),
                         new ServerPing.PlayerInfo[]{}
                 ),

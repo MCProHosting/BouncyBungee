@@ -49,7 +49,7 @@ public class BouncyServerBeatHandler implements Runnable {
      */
     @Override
     public void run() {
-        for (ServerInfo info : ProxyServer.getInstance().getServers().values()) {
+        for (ServerInfo info : BouncyBungee.getAllServerInfo()) {
             BouncyServerBeat bouncyServerBeat = heartbeats.get(info);
             if (bouncyServerBeat == null ||
                     (Calendar.getInstance().getTimeInMillis()-bouncyServerBeat.getTimeHeartbeat() >

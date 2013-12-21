@@ -10,11 +10,14 @@ import com.mcprohosting.bouncybungee.util.TPlugin;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Properties;
 
 /**
@@ -101,8 +104,11 @@ public class BouncyBungee extends TPlugin {
     public void reload() throws IOException {
         this.settings = new Properties();
         this.strings = new Properties();
+        this.settings.load(getFileAsStream("settings.properties"));
         if (!this.settings.containsKey("host")) {
+            BouncyBungee.getInstance().getLogger().info("Adding property");
             this.settings.setProperty("host", "127.0.0.1");
+            this.settings.store(new FileOutputStream(getDataFolder().getPath() + "/settings.properties"), null);
         }
         this.strings.load(getResourceAsStream("strings.properties"));
     }
@@ -144,5 +150,13 @@ public class BouncyBungee extends TPlugin {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Collection<ServerInfo> getAllServerInfo() {
+        Collection<ServerInfo> copy = new HashSet<ServerInfo>();
+        for (ServerInfo info : ProxyServer.getInstance().getServers().values()) {
+            copy.add(info);
+        }
+        return copy;
     }
 }

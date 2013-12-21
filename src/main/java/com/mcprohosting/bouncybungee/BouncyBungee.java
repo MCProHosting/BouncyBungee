@@ -101,8 +101,9 @@ public class BouncyBungee extends TPlugin {
     public void reload() throws IOException {
         this.settings = new Properties();
         this.strings = new Properties();
-        this.settings.load(getFileAsStream("settings.properties"));
-        if (!this.settings.containsKey("host")) this.settings.setProperty("host", "127.0.0.1");
+        if (!this.settings.containsKey("host")) {
+            this.settings.setProperty("host", "127.0.0.1");
+        }
         this.strings.load(getResourceAsStream("strings.properties"));
     }
     public String getFormat(String key, boolean prefix, boolean color, String[]... datas) {

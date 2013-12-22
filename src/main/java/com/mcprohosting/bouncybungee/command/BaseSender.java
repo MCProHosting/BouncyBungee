@@ -1,7 +1,8 @@
 package com.mcprohosting.bouncybungee.command;
 
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import com.mcprohosting.bouncybungee.BouncyBungee;
+import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -13,6 +14,15 @@ import net.md_5.bungee.event.EventHandler;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseSender implements Listener {
+    @EventHandler
+    public void onPlayerLogin(PreLoginEvent event) {
+        if (BouncyServerBeatHandler.getPlayersOnline() >=
+                Integer.parseInt((String) BouncyBungee.getInstance().getSettings().get("maxplayers"))) {
+            event.setCancelReason("Our network is currently full, try again shortly!");
+            event.setCancelled(true);
+        }
+    }
+
     @EventHandler
     public void onPlayerJoin(PostLoginEvent event) {
         NetCommand.

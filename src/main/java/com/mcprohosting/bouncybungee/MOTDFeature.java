@@ -21,7 +21,7 @@ public class MOTDFeature implements Listener {
         event.setResponse(new ServerPing(
                 event.getResponse().getVersion(),
                 new ServerPing.Players(
-                        ProxyServer.getInstance().getConfig().getListeners().iterator().next().getMaxPlayers(),
+                        Integer.parseInt(BouncyBungee.getInstance().getSettings().getProperty("maxplayers")),
                         BouncyServerBeatHandler.getPlayersOnline(),
                         new ServerPing.PlayerInfo[]{}
                 ),

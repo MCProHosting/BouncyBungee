@@ -5,6 +5,8 @@ import com.mcprohosting.bouncybungee.command.BaseSender;
 import com.mcprohosting.bouncybungee.command.NetCommandDispatch;
 import com.mcprohosting.bouncybungee.igcommand.AlertNet;
 import com.mcprohosting.bouncybungee.igcommand.GAlertCommand;
+import com.mcprohosting.bouncybungee.igcommand.GSetMaxPlayers;
+import com.mcprohosting.bouncybungee.igcommand.ModifyNetMaxPlayers;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import com.mcprohosting.bouncybungee.util.TPlugin;
 import lombok.Getter;
@@ -71,7 +73,9 @@ public class BouncyBungee extends TPlugin {
         this.beatHandler.schedule();
         registerEvents(new MOTDFeature());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
         this.getDispatch().registerNetCommands(new AlertNet());
+        this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
     }
 
     /**
@@ -102,16 +106,43 @@ public class BouncyBungee extends TPlugin {
      * @throws IOException When there was an error reading the files
      */
     public void reload() throws IOException {
+        loadConfig();
+    }
+
+    public void loadConfig() throws IOException {
         this.settings = new Properties();
         this.strings = new Properties();
         this.settings.load(getFileAsStream("settings.properties"));
-        if (!this.settings.containsKey("host")) {
-            BouncyBungee.getInstance().getLogger().info("Adding property");
-            this.settings.setProperty("host", "127.0.0.1");
-            this.settings.store(new FileOutputStream(getDataFolder().getPath() + "/settings.properties"), null);
-        }
         this.strings.load(getResourceAsStream("strings.properties"));
+
+        if (!this.settings.containsKey("host")) {
+            this.settings.setProperty("host", "127.0.0.1");
+            saveConfig();
+        }
+        if (!this.settings.containsKey("maxplayers")) {
+            this.settings.setProperty("maxplayers", "100");
+            saveConfig();
+        }
     }
+
+    public boolean editConfigProperty(String key, String value) throws IOException {
+        if (this.settings.containsKey(key)) {
+            this.settings.setProperty(key, value);
+            saveConfig();
+            return true;
+        }
+
+        return false;
+    }
+
+    public Properties getSettings() {
+        return settings;
+    }
+
+    public void saveConfig() throws IOException {
+        this.settings.store(new FileOutputStream(getDataFolder().getPath() + "/settings.properties"), null);
+    }
+
     public String getFormat(String key, boolean prefix, boolean color, String[]... datas) {
         String property = this.strings.getProperty(key);
         if (prefix) property = ChatColor.

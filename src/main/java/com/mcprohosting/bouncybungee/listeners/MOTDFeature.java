@@ -1,5 +1,6 @@
-package com.mcprohosting.bouncybungee;
+package com.mcprohosting.bouncybungee.listeners;
 
+import com.mcprohosting.bouncybungee.BouncyBungee;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;

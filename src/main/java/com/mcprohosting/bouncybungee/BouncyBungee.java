@@ -7,6 +7,8 @@ import com.mcprohosting.bouncybungee.igcommand.AlertNet;
 import com.mcprohosting.bouncybungee.igcommand.GAlertCommand;
 import com.mcprohosting.bouncybungee.igcommand.GSetMaxPlayers;
 import com.mcprohosting.bouncybungee.igcommand.ModifyNetMaxPlayers;
+import com.mcprohosting.bouncybungee.listeners.MOTDFeature;
+import com.mcprohosting.bouncybungee.listeners.PluginMessageListener;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
 import com.mcprohosting.bouncybungee.util.TPlugin;
 import lombok.Getter;
@@ -72,6 +74,7 @@ public class BouncyBungee extends TPlugin {
         this.beatHandler = new BouncyServerBeatHandler();
         this.beatHandler.schedule();
         registerEvents(new MOTDFeature());
+        registerEvents(new PluginMessageListener());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
         this.getDispatch().registerNetCommands(new AlertNet());

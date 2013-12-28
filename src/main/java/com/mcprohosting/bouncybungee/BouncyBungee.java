@@ -3,10 +3,7 @@ package com.mcprohosting.bouncybungee;
 import com.mcprohosting.bouncybungee.command.BaseReceiver;
 import com.mcprohosting.bouncybungee.command.BaseSender;
 import com.mcprohosting.bouncybungee.command.NetCommandDispatch;
-import com.mcprohosting.bouncybungee.igcommand.AlertNet;
-import com.mcprohosting.bouncybungee.igcommand.GAlertCommand;
-import com.mcprohosting.bouncybungee.igcommand.GSetMaxPlayers;
-import com.mcprohosting.bouncybungee.igcommand.ModifyNetMaxPlayers;
+import com.mcprohosting.bouncybungee.igcommand.*;
 import com.mcprohosting.bouncybungee.listeners.MOTDFeature;
 import com.mcprohosting.bouncybungee.listeners.PluginMessageListener;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
@@ -20,6 +17,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
@@ -40,6 +38,10 @@ public class BouncyBungee extends TPlugin {
      * Stores our strings file (loaded)
      */
     private Properties strings;
+    /**
+     * Stores our player bans
+     */
+    private ArrayList<String> bans;
     /**
      * Has our NetCommandDispatch for registration.
      */
@@ -77,8 +79,10 @@ public class BouncyBungee extends TPlugin {
         registerEvents(new PluginMessageListener());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GBan());
         this.getDispatch().registerNetCommands(new AlertNet());
         this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
+        this.getDispatch().registerNetCommands(new NetBan());
     }
 
     /**
@@ -102,6 +106,7 @@ public class BouncyBungee extends TPlugin {
      */
     @Override
     protected void stop() {
+        saveBans();
     }
 
     /**
@@ -126,6 +131,8 @@ public class BouncyBungee extends TPlugin {
             this.settings.setProperty("maxplayers", "100");
             saveConfig();
         }
+
+        loadBans();
     }
 
     public boolean editConfigProperty(String key, String value) throws IOException {
@@ -192,5 +199,43 @@ public class BouncyBungee extends TPlugin {
             copy.add(info);
         }
         return copy;
+    }
+
+    private void loadBans() {
+        this.bans = new ArrayList<String>();
+
+        File playerBans = new File(getDataFolder(), "bans.txt");
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(playerBans));
+            String line = null;
+
+            while ((line = in.readLine()) != null) {
+                this.bans.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveBans() {
+        File playerBans = new File(getDataFolder(), "bans.txt");
+        try {
+            playerBans.createNewFile();
+            BufferedWriter out = new BufferedWriter(new FileWriter(playerBans));
+
+            for (String player : bans) {
+                out.write(player);
+            }
+
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addPlayerToBans(String player) {
+        bans.add(player);
     }
 }

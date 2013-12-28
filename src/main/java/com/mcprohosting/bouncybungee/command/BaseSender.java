@@ -16,10 +16,17 @@ import net.md_5.bungee.event.EventHandler;
 public class BaseSender implements Listener {
     @EventHandler
     public void onPlayerLogin(PreLoginEvent event) {
+        if (BouncyBungee.getInstance().containsPlayer(event.getConnection().getName())) {
+            event.setCancelReason("You have been banned from this network!");
+            event.setCancelled(true);
+            return;
+        }
+
         if (BouncyServerBeatHandler.getPlayersOnline() >=
                 Integer.parseInt((String) BouncyBungee.getInstance().getSettings().get("maxplayers"))) {
             event.setCancelReason("Our network is currently full, try again shortly!");
             event.setCancelled(true);
+            return;
         }
     }
 

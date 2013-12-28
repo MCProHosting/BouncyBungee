@@ -238,4 +238,8 @@ public class BouncyBungee extends TPlugin {
     public void addPlayerToBans(String player) {
         bans.add(player);
     }
+
+    public boolean containsPlayer(String player) {
+        return bans.contains(player);
+    }
 }

@@ -210,6 +210,10 @@ public class BouncyBungee extends TPlugin {
 
         File playerBans = new File(getDataFolder(), "bans.txt");
         try {
+            if (playerBans.exists() == false) {
+                playerBans.createNewFile();
+            }
+
             BufferedReader in = new BufferedReader(new FileReader(playerBans));
             String line = null;
 

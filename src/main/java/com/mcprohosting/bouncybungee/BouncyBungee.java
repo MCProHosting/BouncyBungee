@@ -81,10 +81,12 @@ public class BouncyBungee extends TPlugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GBan());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GTransfer());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSend());
         this.getDispatch().registerNetCommands(new AlertNet());
         this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
         this.getDispatch().registerNetCommands(new NetBan());
         this.getDispatch().registerNetCommands(new TransferNet());
+        this.getDispatch().registerNetCommands(new NetSend());
     }
 
     /**

@@ -20,6 +20,11 @@ public class GSend extends Command {
             return;
         }
 
+        if (strings.length == 0) {
+            sender.sendMessage(ChatColor.RED + "You must specify a message consisting of at least one word.");
+            return;
+        }
+
         StringBuilder builder = new StringBuilder();
         for (String s : strings) {
             builder.append(s).append(" ");

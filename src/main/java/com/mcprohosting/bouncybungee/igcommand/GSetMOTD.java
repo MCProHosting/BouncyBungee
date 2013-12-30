@@ -34,7 +34,7 @@ public class GSetMOTD extends Command {
 
         NetCommand.withName("gsetmotd")
                 .withArg("motd", builder.toString())
-                .withArg("sender", sender.getName());
+                .withArg("sender", sender.getName()).send();
         sender.sendMessage(ChatColor.GREEN + "Setting the motd of the network!");
     }
 

@@ -37,6 +37,10 @@ public class GSend extends Command {
     }
 
     public static void sendMessage(String message) {
+        if (message == null) {
+            return;
+        }
+
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (p.getServer().getInfo().getName().toLowerCase().contains("hub") ||
                     p.getServer().getInfo().getName().toLowerCase().contains("lobby")) {

@@ -49,15 +49,18 @@ public class BouncyServerBeatHandler implements Runnable {
      */
     @Override
     public void run() {
-        for (ServerInfo info : BouncyBungee.getAllServerInfo()) {
-            BouncyServerBeat bouncyServerBeat = heartbeats.get(info);
-            if (bouncyServerBeat == null ||
-                    (Calendar.getInstance().getTimeInMillis()-bouncyServerBeat.getTimeHeartbeat() >
-                            BouncyServerBeatHandler.TIME_EXPIRE))
-            {
-                ProxyServer.getInstance().getServers().remove(info.getName());
-                BouncyServerHandler.disconnectAll(info, BouncyBungee.getInstance().getFormat("updating-routing",false));
-                this.heartbeats.remove(info);
+        Collection<ServerInfo> allServerInfo = BouncyBungee.getAllServerInfo();
+        synchronized (ProxyServer.getInstance().getServers()) {
+            for (ServerInfo info : allServerInfo) {
+                BouncyServerBeat bouncyServerBeat = heartbeats.get(info);
+                if (bouncyServerBeat == null ||
+                        (Calendar.getInstance().getTimeInMillis()-bouncyServerBeat.getTimeHeartbeat() >
+                                BouncyServerBeatHandler.TIME_EXPIRE))
+                {
+                    ProxyServer.getInstance().getServers().remove(info.getName());
+                    BouncyServerHandler.disconnectAll(info, BouncyBungee.getInstance().getFormat("updating-routing",false));
+                    this.heartbeats.remove(info);
+                }
             }
         }
         schedule();

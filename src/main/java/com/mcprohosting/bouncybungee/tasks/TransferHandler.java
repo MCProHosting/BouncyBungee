@@ -50,15 +50,18 @@ public class TransferHandler implements ScheduledTask, Runnable {
         transferInProgress = false;
         handler = null;
         players = null;
-
-        ProxyServer.getInstance().getScheduler().cancel(this);
     }
 
     @Override
     public void run() {
         ProxiedPlayer p;
 
-        if (players.isEmpty() == false) {
+        if (players == null) {
+            this.cancel();
+            return;
+        }
+
+        if (players.isEmpty()) {
             this.cancel();
             return;
         }

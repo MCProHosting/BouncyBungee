@@ -26,7 +26,7 @@ public class MOTDFeature implements Listener {
                         BouncyServerBeatHandler.getPlayersOnline(),
                         new ServerPing.PlayerInfo[]{}
                 ),
-                event.getResponse().getDescription(),
+                BouncyBungee.getInstance().getSettings().getProperty("motd"),
                 event.getResponse().getFavicon()
         ));
     }

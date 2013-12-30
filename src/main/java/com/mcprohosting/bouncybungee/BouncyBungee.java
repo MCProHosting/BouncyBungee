@@ -82,11 +82,13 @@ public class BouncyBungee extends TPlugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GBan());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GTransfer());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSend());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMOTD());
         this.getDispatch().registerNetCommands(new AlertNet());
         this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
         this.getDispatch().registerNetCommands(new NetBan());
         this.getDispatch().registerNetCommands(new TransferNet());
         this.getDispatch().registerNetCommands(new NetSend());
+        this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
     }
 
     /**
@@ -133,6 +135,10 @@ public class BouncyBungee extends TPlugin {
         }
         if (!this.settings.containsKey("maxplayers")) {
             this.settings.setProperty("maxplayers", "100");
+            saveConfig();
+        }
+        if (!this.settings.containsKey("motd")) {
+            this.settings.setProperty("motd", "Welcome to TitanMC");
             saveConfig();
         }
 

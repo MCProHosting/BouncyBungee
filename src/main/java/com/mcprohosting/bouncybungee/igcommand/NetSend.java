@@ -8,7 +8,7 @@ public class NetSend {
 
     @NetCommandHandler(args = {"message"}, name = "gsend")
     public void onSend(HashMap<String, Object> sendData) {
-        GSend.sendMessage((String[]) sendData.get("message"));
+        GSend.sendMessage((String) sendData.get("message"));
     }
 
 }

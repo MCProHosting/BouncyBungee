@@ -20,17 +20,16 @@ public class GSend extends Command {
             return;
         }
 
+        StringBuilder builder = new StringBuilder();
+        for (String s : strings) {
+            builder.append(s).append(" ");
+        }
+
         NetCommand.withName("gsend")
-                .withArg("message", strings);
+                .withArg("message", builder.toString());
     }
 
-    public static void sendMessage(String[] strings) {
-        String message = "";
-        for (String string : strings) {
-            message += string + " ";
-        }
-        message.trim();
-
+    public static void sendMessage(String message) {
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (p.getServer().getInfo().getName().toLowerCase().contains("hub") ||
                     p.getServer().getInfo().getName().toLowerCase().contains("lobby")) {

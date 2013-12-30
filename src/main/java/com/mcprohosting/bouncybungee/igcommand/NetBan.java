@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class NetBan {
 
     @NetCommandHandler(args = {"ban", "sender"}, name = "gban")
-    public void onBan(HashMap<String, Object> alertData) {
-        GBan.banPlayer((String) alertData.get("ban"));
+    public void onBan(HashMap<String, Object> banData) {
+        GBan.banPlayer((String) banData.get("ban"));
     }
 
 }

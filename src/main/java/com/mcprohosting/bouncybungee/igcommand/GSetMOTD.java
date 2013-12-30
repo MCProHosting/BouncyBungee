@@ -22,19 +22,18 @@ public class GSetMOTD extends Command {
             return;
         }
 
+        StringBuilder builder = new StringBuilder();
+        for (String s : strings) {
+            builder.append(s).append(" ");
+        }
+
         NetCommand.withName("gsetmotd")
-                .withArg("motd", strings);
+                .withArg("motd", builder.toString());
     }
 
-    public static void setMOTD(String[] motd) {
-        String message = "";
-        for (String string : motd) {
-            message += string + " ";
-        }
-        message.trim();
-
+    public static void setMOTD(String motd) {
         try {
-            BouncyBungee.getInstance().editConfigProperty("motd", message);
+            BouncyBungee.getInstance().editConfigProperty("motd", motd);
         } catch (IOException e) {
             BouncyBungee.getInstance().getLogger().warning("Failed to save motd to settings.properties");
             e.printStackTrace();

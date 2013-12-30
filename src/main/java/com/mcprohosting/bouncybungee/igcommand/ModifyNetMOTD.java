@@ -8,7 +8,7 @@ public class ModifyNetMOTD {
 
     @NetCommandHandler(args = {"motd"}, name = "gsetmotd")
     public void onSetMaxPlayers(HashMap<String, Object> maxPlayersData) {
-        GSetMOTD.setMOTD((String[]) maxPlayersData.get("motd"));
+        GSetMOTD.setMOTD((String) maxPlayersData.get("motd"));
     }
 
 }

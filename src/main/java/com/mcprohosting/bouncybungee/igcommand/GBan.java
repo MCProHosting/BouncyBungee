@@ -19,9 +19,14 @@ public class GBan extends Command {
             return;
         }
 
+        if (strings.length != 1) {
+            sender.sendMessage(ChatColor.RED + "You must specify a player to ban only.");
+        }
+
         NetCommand.withName("gban")
                 .withArg("ban", strings[0])
                 .withArg("sender", sender.getName()).send();
+        sender.sendMessage(ChatColor.GREEN + "Banning " + strings[0] + " from TitanMC.");
     }
 
     public static void banPlayer(String player) {

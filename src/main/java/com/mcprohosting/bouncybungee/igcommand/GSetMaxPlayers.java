@@ -22,9 +22,21 @@ public class GSetMaxPlayers extends Command {
             return;
         }
 
+        if (strings.length != 1) {
+            sender.sendMessage(ChatColor.RED + "You must specify a number to set only!");
+        }
+
+        try {
+            Integer.parseInt((String) strings[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage("Please specify a valid number.");
+            return;
+        }
+
         NetCommand.withName("gsetmaxplayers")
                 .withArg("maxplayers", strings[0])
                 .withArg("sender", sender.getName()).send();
+        sender.sendMessage(ChatColor.GREEN + "Setting the max players of the network!");
     }
 
     public static void setMaxPlayers(String maxPlayers) {

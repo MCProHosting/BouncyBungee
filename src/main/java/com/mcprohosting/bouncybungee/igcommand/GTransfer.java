@@ -43,6 +43,7 @@ public class GTransfer extends Command {
         NetCommand.withName("gtransfer")
                 .withArg("transfer", strings[0])
                 .withArg("sender", sender.getName()).send();
+        sender.sendMessage(ChatColor.GREEN + "Transferring players in your server to specified server!");
     }
 
     public static void transferPlayer(String sender, String destination) {

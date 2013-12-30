@@ -26,11 +26,20 @@ public class GAlertCommand extends Command {
             sender.sendMessage(ChatColor.RED + "You can't perform this command!");
             return;
         }
+
+        if (strings.length == 0) {
+            sender.sendMessage(ChatColor.RED + "You must specify a message consisting of at least one word.");
+            return;
+        }
+
         StringBuilder builder = new StringBuilder();
         for (String s : strings) {
             builder.append(s).append(" ");
         }
-        NetCommand.withName("galert").withArg("alert", builder.toString()).withArg("sender", sender.getName()).send();
+
+        NetCommand.withName("galert")
+                .withArg("alert", builder.toString())
+                .withArg("sender", sender.getName()).send();
         sender.sendMessage(ChatColor.GREEN + "Alert sent.");
     }
     public static void broadcastAlert(String alert) {

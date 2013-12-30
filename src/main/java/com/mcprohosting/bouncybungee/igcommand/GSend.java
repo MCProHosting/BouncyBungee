@@ -31,7 +31,9 @@ public class GSend extends Command {
         }
 
         NetCommand.withName("gsend")
-                .withArg("message", builder.toString());
+                .withArg("message", builder.toString())
+                .withArg("sender", sender.getName());
+        sender.sendMessage(ChatColor.GREEN + "Sending message to all players in hub and lobby servers.");
     }
 
     public static void sendMessage(String message) {

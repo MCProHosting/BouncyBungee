@@ -22,13 +22,20 @@ public class GSetMOTD extends Command {
             return;
         }
 
+        if (strings.length == 0) {
+            sender.sendMessage(ChatColor.RED + "You must specify a message for the motd.");
+            return;
+        }
+
         StringBuilder builder = new StringBuilder();
         for (String s : strings) {
             builder.append(s).append(" ");
         }
 
         NetCommand.withName("gsetmotd")
-                .withArg("motd", builder.toString());
+                .withArg("motd", builder.toString())
+                .withArg("sender", sender.getName());
+        sender.sendMessage(ChatColor.GREEN + "Setting the motd of the network!");
     }
 
     public static void setMOTD(String motd) {

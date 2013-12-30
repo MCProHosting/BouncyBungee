@@ -2,6 +2,7 @@ package com.mcprohosting.bouncybungee.listeners;
 
 import com.mcprohosting.bouncybungee.BouncyBungee;
 import com.mcprohosting.bouncybungee.servers.BouncyServerBeatHandler;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.config.ListenerInfo;
@@ -26,7 +27,7 @@ public class MOTDFeature implements Listener {
                         BouncyServerBeatHandler.getPlayersOnline(),
                         new ServerPing.PlayerInfo[]{}
                 ),
-                BouncyBungee.getInstance().getSettings().getProperty("motd"),
+                ChatColor.translateAlternateColorCodes('&', BouncyBungee.getInstance().getSettings().getProperty("motd")),
                 event.getResponse().getFavicon()
         ));
     }

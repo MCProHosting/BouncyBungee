@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class ModifyNetMOTD {
 
-    @NetCommandHandler(args = {"motd", "sender"}, name = "gsetmotd")
+    @NetCommandHandler(args = {"motd"}, name = "gsetmotd")
     public void onSetMaxPlayers(HashMap<String, Object> maxPlayersData) {
         GSetMOTD.setMOTD((String[]) maxPlayersData.get("motd"));
     }

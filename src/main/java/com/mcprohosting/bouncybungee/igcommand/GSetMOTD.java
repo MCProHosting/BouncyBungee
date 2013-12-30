@@ -4,6 +4,7 @@ import com.mcprohosting.bouncybungee.BouncyBungee;
 import com.mcprohosting.bouncybungee.command.NetCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class GSetMOTD extends Command {
             BouncyBungee.getInstance().editConfigProperty("motd", message);
         } catch (IOException e) {
             BouncyBungee.getInstance().getLogger().warning("Failed to save motd to settings.properties");
+            e.printStackTrace();
         }
     }
 

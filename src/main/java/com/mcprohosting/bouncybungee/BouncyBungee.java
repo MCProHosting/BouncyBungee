@@ -88,7 +88,7 @@ public class BouncyBungee extends TPlugin {
         this.getDispatch().registerNetCommands(new NetBan());
         this.getDispatch().registerNetCommands(new TransferNet());
         this.getDispatch().registerNetCommands(new NetSend());
-        this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
+        this.getDispatch().registerNetCommands(new ModifyNetMOTD());
     }
 
     /**

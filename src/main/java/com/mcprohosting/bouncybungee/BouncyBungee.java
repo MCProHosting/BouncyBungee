@@ -61,34 +61,31 @@ public class BouncyBungee extends TPlugin {
     @Override
     protected void start() {
         BouncyBungee.instance = this;
+
+        // Load Config
         if (!getDataFolder().exists()) getDataFolder().mkdir();
         try {
             reload();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Enable Jedis
         JedisPoolConfig config = new JedisPoolConfig();
         config.setTestOnBorrow(true);
         this.jedisPool = new JedisPool(config, this.settings.getProperty("host"));
+
+        // Register Dispatch
         this.dispatch = new NetCommandDispatch();
-        this.getDispatch().registerNetCommands(new BaseReceiver());
-        registerEvents(new BaseSender());
+
+        // Register Beat Handler
         this.beatHandler = new BouncyServerBeatHandler();
         this.beatHandler.schedule();
-        registerEvents(new MOTDFeature());
-        registerEvents(new PluginMessageListener());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GBan());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GTransfer());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSend());
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMOTD());
-        this.getDispatch().registerNetCommands(new AlertNet());
-        this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
-        this.getDispatch().registerNetCommands(new NetBan());
-        this.getDispatch().registerNetCommands(new TransferNet());
-        this.getDispatch().registerNetCommands(new NetSend());
-        this.getDispatch().registerNetCommands(new ModifyNetMOTD());
+
+        // Register Events and Commands
+        registerEvents();
+        registerCommands();
+        registerNetCommands();
     }
 
     /**
@@ -255,5 +252,30 @@ public class BouncyBungee extends TPlugin {
 
     public boolean containsPlayer(String player) {
         return bans.contains(player);
+    }
+
+    private void registerEvents() {
+        registerEvents(new BaseSender());
+        registerEvents(new MOTDFeature());
+        registerEvents(new PluginMessageListener());
+    }
+
+    private void registerCommands() {
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GAlertCommand());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMaxPlayers());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GBan());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GTransfer());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSend());
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GSetMOTD());
+    }
+
+    private void registerNetCommands() {
+        this.getDispatch().registerNetCommands(new BaseReceiver());
+        this.getDispatch().registerNetCommands(new AlertNet());
+        this.getDispatch().registerNetCommands(new ModifyNetMaxPlayers());
+        this.getDispatch().registerNetCommands(new NetBan());
+        this.getDispatch().registerNetCommands(new TransferNet());
+        this.getDispatch().registerNetCommands(new NetSend());
+        this.getDispatch().registerNetCommands(new ModifyNetMOTD());
     }
 }

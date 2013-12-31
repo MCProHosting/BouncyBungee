@@ -4,6 +4,7 @@ import com.mcprohosting.bouncybungee.BouncyBungee;
 import com.mcprohosting.bouncybungee.command.NetCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 
 public class GBan extends Command {
@@ -31,5 +32,9 @@ public class GBan extends Command {
 
     public static void banPlayer(String player) {
         BouncyBungee.getInstance().addPlayerToBans(player);
+
+        if (ProxyServer.getInstance().getPlayer(player) != null) {
+            ProxyServer.getInstance().getPlayer(player).disconnect("You have been banned from the TitanMC Network.");
+        }
     }
 }
